@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Show from "./Show";
 
+
 const Home = () => {
     
     let navigate = useNavigate(); 
@@ -90,15 +91,16 @@ const Home = () => {
 
   return (
     <div className="App">
-       
+       <h1>Enter the Number of instances</h1>
        {flag==0 && <>
         <input
         type="number"
         value={action}
+        
         onChange={(e)=>setAction(e.target.value)}
         ></input>
         <br/>
-        <button onClick={setactionno}>Search</button>
+        <button onClick={setactionno}>Go</button>
         </>}
         {flag!=0 && <div>
                 {number.map((n)=>(
