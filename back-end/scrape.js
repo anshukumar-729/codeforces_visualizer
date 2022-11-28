@@ -11,9 +11,10 @@ async function config(url) {
   return page;
 }
 
-let answer = [];
-let len = 0;
 async function scrapper(page, url) {
+
+    let answer = [];
+    let len = 0;
   await page.reload();
   let html = await page.evaluate(() => document.body.innerHTML);
   let $ = cheerio.load(html);
@@ -31,7 +32,7 @@ async function scrapper(page, url) {
       answer.push(temp);
     }
   });
-  while (len == 2) {                 // 53
+  while (len == 53) {                 // 53
     len = 0;
     await page.goto(url + `${j}`);
     j++;
@@ -53,22 +54,26 @@ async function scrapper(page, url) {
     });
     // break;
   }
+  return answer
 }
 
 async function monitor(url) {
+  j=1
   let page = await config(url);
-  await scrapper(page, url);
+  return await scrapper(page, url);
 
 }
 
 async function run(username){
-    await monitor(
+  answer=[]
+  console.log(username)
+   return await monitor(
             `https://codeforces.com/submissions/${username}/page/`
           );
 
         //   answer = JSON.stringify(answer);
           // console.log(answer);
-          return answer;
+          // return answer;
         
 }
 
