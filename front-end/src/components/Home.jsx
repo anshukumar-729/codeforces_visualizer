@@ -4,7 +4,7 @@ import React from "react";
 import { useState } from "react";
 // import { useEffect } from "react";
 import Show from "./Show";
-
+import './A.css';
 
 const Home = () => {
     
@@ -89,8 +89,8 @@ const Home = () => {
 
 
   return (
-    <div className="App">
-       <h1>Enter the Number of instances</h1>
+    <div style={{float: "left", width: "80%",marginLeft:"10%",marginRight:"20%",marginTop:"4%",textAlign:"center"}}>
+       <h2>Enter the Details</h2>
        {flag==0 && <>
         <input
         type="number"
@@ -99,23 +99,27 @@ const Home = () => {
         onChange={(e)=>setAction(e.target.value)}
         ></input>
         <br/>
-        <button onClick={setactionno}>Go</button>
+        <br />
+        <button style={{width: "5%",height: "30px",borderRadius: "10px",backgroundColor: "#38E54D",color:"white"}} onClick={setactionno}>Go</button>
         </>}
         {flag!=0 && <div>
                 {number.map((n)=>(
                     <div>
+                        <h4>Enter user 1 details</h4>
                         <input id={"u11_"+n.toString()}></input>
                         <br/>
+                        <h4>Enter user 2 and user 3 details</h4>
                         <input id={"u21_"+n.toString()}></input>
                         <input id={"u22_"+n.toString()}></input>
                         <br/>
+                        <h4>Enter user 1, user 2 and user 3 details details</h4>
                         <input id={"u31_"+n.toString()}></input>
                         <input id={"u32_"+n.toString()}></input>
                         <input id={"u33_"+n.toString()}></input>
                     </div>
                 ))}
                 <br/>
-                <button onClick={find}>Find</button>
+                <button style={{width: "5%",height: "30px",borderRadius: "10px",backgroundColor: "#38E54D",color:"white"}} onClick={find}>Find</button>
             </div>}
             {data!=0 && <Show data={data}/>}
             
