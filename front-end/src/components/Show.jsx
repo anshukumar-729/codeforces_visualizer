@@ -3,11 +3,39 @@ import './A.css';
 import { NavLink,Link } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+// Function to return commonElements
+function getCommon(arr1, arr2) {
+    var common = [];                   // Array to contain common elements
+  
+    for(var i=0 ; i<arr1.length ; ++i) {
+      for(var j=0 ; j<arr2.length ; ++j) {
+        if(arr1[i].question == arr2[j].question) {       // If element is in both the arrays
+          common.push(arr1[i]);        // Push to common array
+        }
+      }
+    }
+    
+    return common;                     // Return the common elements
+  }
+  
+  
+  // Get common elements of arr1, arr2
+  
 
 const Show = (params) => {
     const data = params.data;
-    console.log(data.result[0][0]);
+    // console.log(data.result[0][0]);
     let state = data.result[0][0];
+    let arr1 = data.result[1][0];
+    let arr2 = data.result[1][1];
+    var commonElements = getCommon(arr1, arr2); 
+    let user1 = data.result[2][0];
+    let user2 = data.result[2][1];
+    let user3 = data.result[2][0];
+    var common2 = getCommon(user1, user2);
+    var common3 = getCommon(common2, user3); 
+    
+    console.log(arr1,arr2);
     return(
         <div style={{ marginLeft: '30%'}}>
  <h2 style={{ marginLeft: '20%'}}>All questions of User 1</h2>           
@@ -19,6 +47,38 @@ const Show = (params) => {
         ))}
       </tr>
       {state.map((item) => (
+        <tr key={item.id}>
+          {Object.values(item).map((val) => (
+            <td>{val}</td>
+          ))}
+        </tr>
+      ))}
+    </table>
+    <h2 style={{ marginLeft: '20%'}}>common questions of User 1 and User 2</h2>           
+ <table style={{textAlign: 'center'}}>
+ 
+      <tr key={"header"}>
+        {Object.keys(commonElements[0]).map((key) => (
+          <th>{key}</th>
+        ))}
+      </tr>
+      {commonElements.map((item) => (
+        <tr key={item.id}>
+          {Object.values(item).map((val) => (
+            <td>{val}</td>
+          ))}
+        </tr>
+      ))}
+    </table>
+    <h2 style={{ marginLeft: '20%'}}>common questions of User 1 and User 2 and User 3</h2>           
+ <table style={{textAlign: 'center'}}>
+ 
+      <tr key={"header"}>
+        {Object.keys(common3[0]).map((key) => (
+          <th>{key}</th>
+        ))}
+      </tr>
+      {common3.map((item) => (
         <tr key={item.id}>
           {Object.values(item).map((val) => (
             <td>{val}</td>

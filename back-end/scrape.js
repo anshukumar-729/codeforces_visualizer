@@ -32,7 +32,7 @@ async function scrapper(page, url) {
       answer.push(temp);
     }
   });
-  while (len == 53) {                 // 53
+  while (len != 53) {                 // 53
     len = 0;
     await page.goto(url + `${j}`);
     j++;
