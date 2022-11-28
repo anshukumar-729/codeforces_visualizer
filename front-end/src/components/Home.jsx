@@ -1,16 +1,15 @@
 import React from "react";
-import { NavLink,Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+// import { NavLink,Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import Show from "./Show";
 
 
 const Home = () => {
     
-    let navigate = useNavigate(); 
   
-    const [username,setUserName]=useState("");
+  
     const [action , setAction ] =useState(0)
     const [flag , setFlag ] =useState(0)
     const [number , setNumber ] =useState(0)
