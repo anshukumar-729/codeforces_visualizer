@@ -1,14 +1,19 @@
 import React from "react";
 import { NavLink,Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import Show from "./Show";
 
 const Home = () => {
+    
+    let navigate = useNavigate(); 
   
     const [username,setUserName]=useState("");
     const [action , setAction ] =useState(0)
     const [flag , setFlag ] =useState(0)
     const [number , setNumber ] =useState(0)
+    const [data, setData] = useState(0)
 
 	async function get() {
 		try {
@@ -57,11 +62,15 @@ const Home = () => {
         );
         const data2 = await response.json();
         console.log(data2)
-        
+        setData(data2)
             } catch (err) {
                 console.log(err);
             }
-
+        // window.location.href = 'http://localhost:3000/show';
+        // window.location.replace('/show')
+        
+        //   let path = `/show`; 
+        //   navigate(path);
         }
 
         function setactionno(){
@@ -107,6 +116,8 @@ const Home = () => {
                 <br/>
                 <button onClick={find}>Find</button>
             </div>}
+            {data!=0 && <Show data={data}/>}
+            
     </div>
   );
 };
