@@ -9,8 +9,14 @@ function getCommon(arr1, arr2) {
   
     for(var i=0 ; i<arr1.length ; ++i) {
       for(var j=0 ; j<arr2.length ; ++j) {
-        if(arr1[i].question == arr2[j].question) {       // If element is in both the arrays
-          common.push(arr1[i]);        // Push to common array
+        if(arr1[i].question == arr2[j].question && arr1[i].status == 'Accepted') {       // If element is in both the arrays
+            let flag = 0;
+            for(var k=0;k < common.length;k++){
+                if(arr1[i].question == common[k].question){
+                    flag = 1
+                }
+            }
+            if(flag === 0){common.push(arr1[i]);}        // Push to common array
         }
       }
     }
@@ -28,14 +34,28 @@ const Show = (params) => {
     let state = data.result[0][0];
     let arr1 = data.result[1][0];
     let arr2 = data.result[1][1];
-    var commonElements = getCommon(arr1, arr2); 
+    var commonElements;
+    if (arr1 != [] && arr2 != []){
+     commonElements = getCommon(arr1, arr2); }
+    else{
+        commonElements = []
+    }
     let user1 = data.result[2][0];
     let user2 = data.result[2][1];
-    let user3 = data.result[2][0];
-    var common2 = getCommon(user1, user2);
-    var common3 = getCommon(common2, user3); 
+    let user3 = data.result[2][2];
+    var common3;
+    var common2;
+    if (user1 != [] && user2 != [] &&  user3 != []){
+    common2 = getCommon(user1, user2);
+     common3 = getCommon(common2, user3); }
+     else{
+        common2 = []
+        common3 = []
+     }
+
     
-    console.log(arr1,arr2);
+    console.log(commonElements);
+    console.log(common3);
     return(
         <div style={{ marginLeft: '30%'}}>
  <h2 style={{ marginLeft: '20%'}}>All questions of User 1</h2>           
@@ -55,7 +75,7 @@ const Show = (params) => {
       ))}
     </table>
     <h2 style={{ marginLeft: '20%'}}>common questions of User 1 and User 2</h2>           
- <table style={{textAlign: 'center'}}>
+    {commonElements.length!=0 && <table style={{textAlign: 'center'}}>
  
       <tr key={"header"}>
         {Object.keys(commonElements[0]).map((key) => (
@@ -69,9 +89,9 @@ const Show = (params) => {
           ))}
         </tr>
       ))}
-    </table>
+    </table> }
     <h2 style={{ marginLeft: '20%'}}>common questions of User 1 and User 2 and User 3</h2>           
- <table style={{textAlign: 'center'}}>
+    { common3.length!=0 && <table style={{textAlign: 'center'}}>
  
       <tr key={"header"}>
         {Object.keys(common3[0]).map((key) => (
@@ -85,7 +105,7 @@ const Show = (params) => {
           ))}
         </tr>
       ))}
-    </table>
+    </table> }
         </div>
     )
 };
