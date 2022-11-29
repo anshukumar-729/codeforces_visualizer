@@ -75,8 +75,8 @@ const Show = (params) => {
         </tr>
       ))}
     </table>
-    <h2 style={{ marginLeft: '20%'}}>common questions of User 1 and User 2</h2>           
-    {commonElements.length!=0 && <table style={{textAlign: 'center'}}>
+    <h2 style={{ marginLeft: '0%'}}>common questions of User 1 and User 2</h2>           
+    {commonElements.length!=0 && <table style={{textAlign: 'center',marginLeft:"25%"}}>
  
       <tr key={"header"}>
         {Object.keys(commonElements[0]).map((key) => (
@@ -91,8 +91,8 @@ const Show = (params) => {
         </tr>
       ))}
     </table> }
-    <h2 style={{ marginLeft: '20%'}}>common questions of User 1 and User 2 and User 3</h2>           
-    { common3.length!=0 && <table style={{textAlign: 'center'}}>
+    <h2 style={{ marginLeft: '0%'}}>common questions of User 1 and User 2 and User 3</h2>           
+    { common3.length!=0 && <table style={{textAlign: 'center',marginLeft:"25%"}}>
  
       <tr key={"header"}>
         {Object.keys(common3[0]).map((key) => (
