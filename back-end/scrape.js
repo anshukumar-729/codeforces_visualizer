@@ -32,7 +32,7 @@ async function scrapper(page, url) {
       answer.push(temp);
     }
   });
-  while (len != 53) {                 // 53
+  while (len == 53) {                 // 53
     len = 0;
     await page.goto(url + `${j}`);
     j++;
@@ -42,9 +42,11 @@ async function scrapper(page, url) {
     $ = cheerio.load(html);
     $("tr", html).each(function () {
       len++;
+      let id = $("td.id-cell a",this).text()
       let q = $("td.status-small a", this).text().trim();
       let status = $("td.status-cell > span > span", this).text();
       let temp = {
+        id:id,
         question: q,
         status: status,
       };
