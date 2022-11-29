@@ -4,3 +4,9 @@ td {
   margin: 0px 0px;
   padding: 5px 5px;
 }
+btn{
+  width: 5%;
+  height: 30px;
+  border-radius: 10px;
+  background-color: aqua;
+}

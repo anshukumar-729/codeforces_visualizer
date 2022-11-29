@@ -57,9 +57,10 @@ const Show = (params) => {
     console.log(commonElements);
     console.log(common3);
     return(
-        <div style={{ marginLeft: '30%'}}>
- <h2 style={{ marginLeft: '20%'}}>All questions of User 1</h2>           
- <table style={{textAlign: 'center'}}>
+        <div style={{ marginLeft: '0%'}}>
+          <div><h2 style={{ }}>Results</h2>   </div>
+         
+ <table style={{textAlign: 'center',marginLeft:"25%"}}>
  
       <tr key={"header"}>
         {Object.keys(state[0]).map((key) => (
