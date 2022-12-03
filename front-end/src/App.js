@@ -5,9 +5,9 @@ import { BrowserRouter , Routes, Route, Link } from "react-router-dom";
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="max-w-screen-md mx-auto pt-20">
+      <div className="">
         <Routes>
-          <Route exact path="/" element={<Home/>} />
+          <Route  exact path="/" element={<Home/>} />
           <Route exact path="/show" element={<Show/>} />
         </Routes>
       </div>

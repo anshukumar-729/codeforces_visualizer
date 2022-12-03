@@ -1,6 +1,7 @@
 import React from "react";
 // import { NavLink,Link } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
+import Nav from "./Nav";
 import { useState } from "react";
 // import { useEffect } from "react";
 import Show from "./Show";
@@ -11,9 +12,14 @@ const Home = () => {
   
   
     const [action , setAction ] =useState(0)
+    const [fetching,setFetching]=useState(0)
     const [flag , setFlag ] =useState(0)
     const [number , setNumber ] =useState(0)
     const [data, setData] = useState(0)
+    const [n1, setN1] = useState(1)
+    const [n2, setN2] = useState(1)
+    const [n3, setN3] = useState(1)
+    
 
 	async function get() {
 		try {
@@ -38,13 +44,20 @@ const Home = () => {
     // get();
 
     async function find(){
+        setFetching(1);
         console.log("here")
         let userids = []
-        for(let i=0;i<number.length;i++){
-            userids.push([document.getElementById(`u11_${number[i].toString()}`).value])
-            userids.push([document.getElementById(`u21_${number[i].toString()}`).value,document.getElementById(`u22_${number[i].toString()}`).value])
-            userids.push([document.getElementById(`u31_${number[i].toString()}`).value,document.getElementById(`u32_${number[i].toString()}`).value,document.getElementById(`u33_${number[i].toString()}`).value])
-        }
+        
+           number["1"].map((val)=>{
+                userids.push([document.getElementById("n1_"+val.toString()).value])
+           })
+           number["2"].map((val)=>{
+            userids.push([document.getElementById("n2_"+val.toString()+"_1").value,document.getElementById("n2_"+val.toString()+"_2").value])
+       })
+       number["3"].map((val)=>{
+        userids.push([document.getElementById("n3_"+val.toString()+"_1").value,document.getElementById("n3_"+val.toString()+"_2").value,document.getElementById("n3_"+val.toString()+"_3").value])
+   })
+        
         console.log(userids)
     try {
         const response = await fetch(
@@ -62,6 +75,7 @@ const Home = () => {
         );
         const data2 = await response.json();
         console.log(data2)
+        setFetching(0);
         setData(data2)
             } catch (err) {
                 console.log(err);
@@ -75,11 +89,19 @@ const Home = () => {
 
         function setactionno(){
             setFlag(1);
-            let temp = []
-            for(let i=0;i<action;i++){
-                temp[i]=i;
+            let p={"1":[],"2":[],"3":[]}
+            console.log(n1,n2,n3)
+            for(let i=0;i<n1;i++){
+                p["1"].push(i)   
             }
-            setNumber(temp)
+            for(let i=0;i<n2;i++){
+                p["2"].push(i)   
+            }
+            for(let i=0;i<n3;i++){
+                p["3"].push(i)   
+            }
+            console.log(p)
+            setNumber(p);
         }
 
 
@@ -89,41 +111,91 @@ const Home = () => {
 
 
   return (
-    <div style={{float: "left", width: "80%",marginLeft:"10%",marginRight:"20%",marginTop:"4%",textAlign:"center"}}>
-       <h2>Enter the Details</h2>
-       {flag==0 && <>
-        <input
-        type="number"
-        value={action}
+    <>
+    <Nav/>
+    <div className=" w-full p-3">
         
-        onChange={(e)=>setAction(e.target.value)}
-        ></input>
+
+       <h2 className="text-2xl mb-16 w-full font-bold text-red-700">This is the application where you can visualize the codeforces users</h2>
+       {flag==0 && (<>
+       <div>
+       <div className="mt-2">
+        <label className="text-left">How many user's profile you want to see: </label>
         <br/>
-        <br />
-        <button style={{width: "5%",height: "30px",borderRadius: "10px",backgroundColor: "#38E54D",color:"white"}} onClick={setactionno}>Go</button>
-        </>}
-        {flag!=0 && <div>
-                {number.map((n)=>(
+        <input 
+        onChange={(e)=>setN1(e.target.value)}
+        value={n1}
+        className="w-1/3 border-2 border-stone-600 pl-1 pr-1 p-1 rounded-md"></input>
+        </div>
+        <div className="mt-2">
+        <label className="text-left">How many two user's profile you want to compare: </label>
+        <br/>
+        <input 
+        onChange={(e)=>setN2(e.target.value)}
+        value={n2}
+        className="w-1/3 border-2 border-stone-600 pl-1 pr-1 p-1 rounded-md"></input>
+        </div>
+        <div className="mt-2">
+        <label className="text-left">How many three user's profile you want to compare: </label>
+        <br/>
+        <input 
+        onChange={(e)=>setN3(e.target.value)}
+        value={n3}
+        className="w-1/3 border-2 border-stone-600 pl-1 pr-1 p-1 rounded-md"></input>
+        </div>
+       </div>
+
+       <button onClick={setactionno} className="mt-4 bg-orange-600 p-2 rounded-md text-white"> Submit</button>
+       </>)}
+      {
+        flag==1 && (
+            <div>
+                {number["1"].length!=0 && <>
+                <div>For user Details, Enter User Id</div>
+                <div className="flex">
+                {number["1"].map((val)=>(
                     <div>
-                        <h4>Enter user 1 details</h4>
-                        <input id={"u11_"+n.toString()}></input>
-                        <br/>
-                        <h4>Enter user 2 and user 3 details</h4>
-                        <input id={"u21_"+n.toString()}></input>
-                        <input id={"u22_"+n.toString()}></input>
-                        <br/>
-                        <h4>Enter user 1, user 2 and user 3 details details</h4>
-                        <input id={"u31_"+n.toString()}></input>
-                        <input id={"u32_"+n.toString()}></input>
-                        <input id={"u33_"+n.toString()}></input>
+                    <input id={"n1_"+val.toString()} className="border-2 border-stone-700 p-1 rounded-md"></input>
                     </div>
                 ))}
+                </div>
+                </>}
                 <br/>
-                <button style={{width: "5%",height: "30px",borderRadius: "10px",backgroundColor: "#38E54D",color:"white"}} onClick={find}>Find</button>
-            </div>}
-            {data!=0 && <Show data={data}/>}
+                {number["2"].length!=0 && <>
+                <div>For Two users comaprision, Enter User Id</div>
+                <div className="flex">
+                {number["2"].map((val)=>(
+                    <div className="block border-2 border-black p-3 m-2">
+                    <input id={"n2_"+val.toString()+"_1"} className="border-2 border-stone-700 p-1 rounded-md"></input><br/><br/>
+                    <input  id={"n2_"+val.toString()+"_2"}className="border-2 border-stone-700 p-1 rounded-md"></input>
+                    </div>
+                ))}
+                
+                </div>
+                </>}
+                <br/>
+                {number["3"].length!=0 && <>
+                <div>For Three users comaprision, Enter User Id</div>
+                <div className="flex">
+                {number["3"].map((val)=>(
+                    <div className="block border-2 border-black p-3 m-2">
+                    <input id={"n3_"+val.toString()+"_1"} className="border-2 border-stone-700 p-1 rounded-md"></input><br/><br/>
+                    <input id={"n3_"+val.toString()+"_2"} className="border-2 border-stone-700 p-1 rounded-md"></input><br/><br/>
+                    <input id={"n3_"+val.toString()+"_3"} className="border-2 border-stone-700 p-1 rounded-md"></input>
+                    </div>
+                ))}
+                </div>
+                </>}
+                <button onClick={find} className="text-white bg-orange-600 rounded-md p-2">Fetch Results</button>
+            </div>
+        )
+      }
+
+            {data!=0 && fetching==0 && <Show data={data}/>}
+            {fetching==1 && <p>Fetching the results for you.. Please wait :{")"}</p>}
             
     </div>
+    </>
   );
 };
 

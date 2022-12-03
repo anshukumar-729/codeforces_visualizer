@@ -6,10 +6,12 @@ import { useEffect } from "react";
 // Function to return commonElements
 function getCommon(arr1, arr2) {
     var common = [];                   // Array to contain common elements
+
+    
   
     for(var i=0 ; i<arr1.length ; ++i) {
       for(var j=0 ; j<arr2.length ; ++j) {
-        if(arr1[i].question == arr2[j].question && arr1[i].status == 'Accepted') {       // If element is in both the arrays
+        if(arr1[i].question == arr2[j].question && arr1[i].status == 'Accepted') {      
             let flag = 0;
             for(var k=0;k < common.length;k++){
                 if(arr1[i].question == common[k].question){
@@ -29,84 +31,102 @@ function getCommon(arr1, arr2) {
   
 
 const Show = (params) => {
-    const data = params.data;
+    const data = params.data["result"];
+    const [load,setLoaded]=useState(0)
     // console.log(data.result[0][0]);
-    let state = data.result[0][0];
-    let arr1 = data.result[1][0];
-    let arr2 = data.result[1][1];
-    var commonElements;
-    if (arr1 != [] && arr2 != []){
-     commonElements = getCommon(arr1, arr2); }
-    else{
-        commonElements = []
+    const [result,SetResult]= useState([])
+    console.log(data)
+    function getresult(){
+    let res=[]
+    data.map((val)=>{
+      if(val.length==1){
+          res.push(val[0])
+      }
+      else if(val.length==2){
+        res.push({"id1":val[0]['id'],"id2":val[1]["id"],result:getCommon(val[0]["result"],val[1]["result"])})
+      }
+      else if(val.length==3){
+        res.push({"id1":val[0]['id'],"id2":val[1]["id"],"id3":val[2]["id"],result:getCommon(val[0]["result"],getCommon(val[1]["result"],val[2]["result"]))})
+      }
+      })
+
+      console.log(res)
+
+      SetResult(res)
     }
-    let user1 = data.result[2][0];
-    let user2 = data.result[2][1];
-    let user3 = data.result[2][2];
-    var common3;
-    var common2;
-    if (user1 != [] && user2 != [] &&  user3 != []){
-    common2 = getCommon(user1, user2);
-     common3 = getCommon(common2, user3); }
-     else{
-        common2 = []
-        common3 = []
-     }
+
+    useEffect(()=>{
+      if(load==0){
+        setLoaded(1);
+        getresult();
+      }
+    },load)
+    
+     
 
     
-    console.log(commonElements);
-    console.log(common3);
+    
     return(
         <div style={{ marginLeft: '0%'}}>
-          <div><h2 style={{ }}>Results</h2>   </div>
-         
- <table style={{textAlign: 'center',marginLeft:"25%"}}>
- 
-      <tr key={"header"}>
-        {Object.keys(state[0]).map((key) => (
-          <th>{key}</th>
-        ))}
-      </tr>
-      {state.map((item) => (
-        <tr key={item.id}>
-          {Object.values(item).map((val) => (
-            <td>{val}</td>
-          ))}
-        </tr>
-      ))}
-    </table>
-    <h2 style={{ marginLeft: '0%'}}>common questions of User 1 and User 2</h2>           
-    {commonElements.length!=0 && <table style={{textAlign: 'center',marginLeft:"25%"}}>
- 
-      <tr key={"header"}>
-        {Object.keys(commonElements[0]).map((key) => (
-          <th>{key}</th>
-        ))}
-      </tr>
-      {commonElements.map((item) => (
-        <tr key={item.id}>
-          {Object.values(item).map((val) => (
-            <td>{val}</td>
-          ))}
-        </tr>
-      ))}
-    </table> }
-    <h2 style={{ marginLeft: '0%'}}>common questions of User 1 and User 2 and User 3</h2>           
-    { common3.length!=0 && <table style={{textAlign: 'center',marginLeft:"25%"}}>
- 
-      <tr key={"header"}>
-        {Object.keys(common3[0]).map((key) => (
-          <th>{key}</th>
-        ))}
-      </tr>
-      {common3.map((item) => (
-        <tr key={item.id}>
-          {Object.values(item).map((val) => (
-            <td>{val}</td>
-          ))}
-        </tr>
-      ))}
-    </table> }
+          
+          {result.map((val,ind)=>( <div className="mt-10">
+            {data[ind].length==1 && (
+              <div><h2 style={{ }}>Profile Details of {val["id"]}</h2>  
+              <table>
+                <tr>
+                  <th>Id</th>
+                  <th>Question Name</th>
+                  <th>Verdict</th>
+                </tr>
+                {val["result"].map((q)=>(
+                  <tr>
+                    <td>{q["id"]}</td>
+                    <td>{q["question"]}</td>
+                    <td>{q["status"]}</td>
+                  </tr>
+                ))}
+              </table>
+               </div>
+            )}
+            {data[ind].length==2 && (
+              <div><h2 style={{ }}>Common between {val["id1"]} and {val["id2"]}</h2>  
+              <table>
+                <tr>
+                  <th>Id</th>
+                  <th>Question Name</th>
+                  <th>Verdict</th>
+                </tr>
+                {val["result"].map((q)=>(
+                  <tr>
+                    <td>{q["id"]}</td>
+                    <td>{q["question"]}</td>
+                    <td>{q["status"]}</td>
+                  </tr>
+                ))}
+              </table>
+               </div>
+            )}
+            {data[ind].length==3 && (
+              <div><h2 style={{ }}>Common between {val["id1"]} , {val["id2"]} and {val["id3"]}</h2>  
+              <table>
+                <tr>
+                  <th>Id</th>
+                  <th>Question Name</th>
+                  <th>Verdict</th>
+                </tr>
+                {val["result"].map((q)=>(
+                  <tr>
+                    <td>{q["id"]}</td>
+                    <td>{q["question"]}</td>
+                    <td>{q["status"]}</td>
+                  </tr>
+                ))}
+              </table>
+               </div>
+            )}
+            </div>
+            ))}
+          
         </div>
     )
 };

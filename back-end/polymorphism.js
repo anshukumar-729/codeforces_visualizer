@@ -17,7 +17,7 @@ class Profile_Detail extends Base_Scrapper{
 
         console.log("one class")
 
-        return [result]
+        return [{"id":this.userid,"result":result}]
     }
 }
 
@@ -34,7 +34,7 @@ class Two_Profile_Compare extends Base_Scrapper{
 
         console.log("two class")
 
-        return [result1,result2]
+        return [{"id":this.userid1,"result":result1},{"id":this.userid2,"result":result2}]
     }
 }
 
@@ -52,7 +52,7 @@ class Three_Profile_compare extends Base_Scrapper{
         const result3 = await scrapper.run(this.userid3)
         console.log("three class")
 
-        return [result1,result2,result3]
+        return [{"id":this.userid1,"result":result1},{"id":this.userid2,"result":result2},{"id":this.userid3,"result":result3}]
     }
 }
 
